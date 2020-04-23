@@ -44,6 +44,12 @@ def load_test_data(path):
 
     return test_x, test_y
 
+def load_predict_data(path):
+    with open(path, 'r') as f:
+        lines = [line for line in f.read().split('\n') if line != '']
+
+    return lines
+
 def calculate_accuracy(test_x, preds, test_y):
     pos = 0
     neg = 0
