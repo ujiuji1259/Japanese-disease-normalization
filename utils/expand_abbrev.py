@@ -1,6 +1,7 @@
 import re
 import mojimoji
 import pickle
+import json
 from fairseq.models.transformer import TransformerModel
 
 class Converter(object):
@@ -52,6 +53,7 @@ class Converter(object):
 
 
 if __name__ == "__main__":
+    """
     with open('resource/freq.csv', 'r') as f:
         lines = [line for line in f.read().split('\n') if line != '']
 
@@ -66,16 +68,17 @@ if __name__ == "__main__":
                 med_dic[abbrev].append(word)
             else:
                 med_dic[abbrev] = [word]
+    """
 
     sent = "高Ｃａ血症"
 
-    with open('resource/med_dic_all.pkl', 'wb') as f:
-        pickle.dump(med_dic, f)
+    with open('../data/med_dic_all.json', 'r') as f:
+        med_dic = json.load(f)
 
     translater = TransformerModel.from_pretrained(
-            '/home/ujiie/fairseq/checkpoints',
+            '../../fairseq/checkpoints',
             checkpoint_file='checkpoint16.pt',
-            data_name_or_path='/home/ujiie/fairseq/data-bin/en_ja')
-    converter = Converter(med_dic, 'all', translater)
+            data_name_or_path='../../fairseq/data-bin/en_ja')
+    converter = Converter(med_dic, translater)
     print(converter.convert(sent))
 
