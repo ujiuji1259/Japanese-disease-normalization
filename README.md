@@ -8,3 +8,6 @@
 ## 手法
 [Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks:](https://arxiv.org/abs/1908.10084)でTripletLossを学習し，
 コサイン類似度によって標準病名の予測を行っています．
+
+## 使い方
+### pretrainedモデル
