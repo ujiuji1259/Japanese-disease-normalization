@@ -21,8 +21,11 @@ logging.basicConfig(format='%(asctime)s - %(message)s',
                     level=logging.INFO,
                     handlers=[LoggingHandler()])
 
-def predict(model, output_dir, normal_set, test_x, convert_fn=None):
-    normal_list = model.encode(normal_set)
+def predict(model, output_dir, normal_set, test_x, convert_fn=None, normal_vecs=None):
+    if normal_vecs is None:
+        normal_list = model.encode(normal_set)
+    else:
+        normal_list = normal_vecs
     
     if convert_fn is not None:
         input_set = [convert_fn(token) for token in test_x]
@@ -50,8 +53,11 @@ def predict(model, output_dir, normal_set, test_x, convert_fn=None):
     for origin, normal in zip(test_x, res_words):
         res.append("\t".join([origin, normal]))
 
-    with open(output_dir, 'w') as f:
-        f.write('\n'.join(res))
+    if output_dir is not None:
+        with open(output_dir, 'w') as f:
+            f.write('\n'.join(res))
+    else:
+        return res_words
 
 
 if __name__ == '__main__':
